@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dynamic Calendar Test</title>
+  <style>
+    body { font-family: Arial, sans-serif; margin: 2rem; }
+    h1 { color: #333; }
+    #calendar { margin-top: 1rem; }
+    .event { padding: 0.5rem; border-bottom: 1px solid #ccc; }
+    .event strong { color: #007acc; }
+  </style>
+</head>
+<body>
+  <h1>My Dynamic Calendar</h1>
+
+  <!-- Event Form -->
+  <form id="eventForm">
+    <input type="text" id="title" placeholder="Event title" required>
+    <input type="date" id="date" required>
+    <input type="text" id="description" placeholder="Description">
+    <button type="submit">Add Event</button>
+  </form>
+
+  <!-- Event List -->
+  <div id="calendar"></div>
+
+  <script>
+    async function loadEvents() {
+      const res = await fetch("/api/events");
+      const events = await res.json();
+      const calendar = document.getElementById("calendar");
+      calendar.innerHTML = "";
+      events.forEach(ev => {
+        const div = document.createElement("div");
